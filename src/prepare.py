@@ -1,8 +1,8 @@
 from pathlib import Path
-
+import os
 import pandas as pd
 
-FOLDERS_TO_LABELS = {"n03445777": "golf ball", "n03888257": "parachute"}
+FOLDERS_TO_LABELS = {"n01440764": "golf ball", "n02102040": "parachute"}
 
 
 def get_files_and_labels(source_path):
@@ -28,6 +28,14 @@ def main(repo_path):
     data_path = repo_path / "data"
     train_path = data_path / "raw/train"
     test_path = data_path / "raw/val"
+
+    img_path = next(train_path.rglob("*/*.JPEG"))
+    print(os.getcwd())  # /Users/ethanding/dvc_tutorial/data-version-control
+    print(img_path)  # data/raw/train/n02102040/n02102040_4076.JPEG
+    print(img_path.parent)  # data/raw/train/n02102040
+    print(img_path.absolute())  # # /Users/ethanding/dvc_tutorial/data-version-control/data/raw/train/n02102040/n02102040_4076.JPEG
+    print(img_path.name)  # n02102040_4076.JPEG
+
     train_files, train_labels = get_files_and_labels(train_path)
     test_files, test_labels = get_files_and_labels(test_path)
     prepared = data_path / "prepared"
@@ -37,4 +45,5 @@ def main(repo_path):
 
 if __name__ == "__main__":
     repo_path = Path(__file__).parent.parent
+    print(repo_path)
     main(repo_path)
